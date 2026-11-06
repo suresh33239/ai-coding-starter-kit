@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"name":"tool-tests","category":"tests","tier":"quick","command":["{python}","-m","unittest","discover","-s","tests"],"timeout_sec":180},
+    {"name":"syntax","category":"lint","tier":"quick","command":["{python}","-m","compileall","-q","src","tests"],"timeout_sec":60},
+    {"name":"secret-patterns","category":"security","tier":"quick","command":["{python}","scripts/scan_secrets.py"],"timeout_sec":120},
+    {"name":"architecture-check","category":"architecture","tier":"full","command":["{python}","scripts/check_architecture.py"],"timeout_sec":120}
+  ]
+}

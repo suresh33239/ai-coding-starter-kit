@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {
+      "name": "policy-files",
+      "category": "architecture",
+      "tier": "quick",
+      "command": ["{python}", "scripts/check_template.py"],
+      "timeout_sec": 30
+    },
+    {
+      "name": "secret-patterns",
+      "category": "security",
+      "tier": "quick",
+      "command": ["{python}", "scripts/scan_secrets.py"],
+      "timeout_sec": 60
+    },
+    {
+      "name": "python-syntax",
+      "category": "lint",
+      "tier": "quick",
+      "command": ["{python}", "-m", "compileall", "-q", "scripts", "tests"],
+      "timeout_sec": 30
+    },
+    {
+      "name": "verifier-tests",
+      "category": "tests",
+      "tier": "quick",
+      "command": ["{python}", "-m", "unittest", "discover", "-s", "tests", "-v"],
+      "timeout_sec": 120
+    },
+    {
+      "name": "extended-policy-check",
+      "category": "architecture",
+      "tier": "full",
+      "command": ["{python}", "scripts/check_template.py", "--strict"],
+      "timeout_sec": 30
+    }
+  ]
+}

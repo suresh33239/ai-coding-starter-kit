@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"name":"web-tests","category":"tests","tier":"quick","command":["npm","test","--","--run"],"timeout_sec":600},
+    {"name":"eslint","category":"lint","tier":"quick","command":["npm","run","lint"],"timeout_sec":300},
+    {"name":"secret-patterns","category":"security","tier":"quick","command":["{python}","scripts/scan_secrets.py"],"timeout_sec":120},
+    {"name":"typecheck-contracts","category":"architecture","tier":"full","command":["npm","run","typecheck"],"timeout_sec":600},
+    {"name":"web-build","category":"build","tier":"full","command":["npm","run","build"],"timeout_sec":900}
+  ]
+}

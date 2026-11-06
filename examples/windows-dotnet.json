@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"name":"dotnet-tests","category":"tests","tier":"quick","command":["dotnet","test","--no-restore"],"timeout_sec":1200},
+    {"name":"dotnet-format","category":"lint","tier":"quick","command":["dotnet","format","--verify-no-changes","--no-restore"],"timeout_sec":600},
+    {"name":"secret-patterns","category":"security","tier":"quick","command":["{python}","scripts/scan_secrets.py"],"timeout_sec":120},
+    {"name":"architecture-tests","category":"architecture","tier":"full","command":["dotnet","test","tests/Architecture.Tests/Architecture.Tests.csproj"],"timeout_sec":600},
+    {"name":"build","category":"build","tier":"full","command":["dotnet","build","--no-restore"],"timeout_sec":900}
+  ]
+}

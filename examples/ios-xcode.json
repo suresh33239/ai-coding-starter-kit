@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"name":"ios-simulator-tests","category":"tests","tier":"quick","command":["xcodebuild","test","-project","YourApp.xcodeproj","-scheme","YourApp","-destination","platform=iOS Simulator,id=REPLACE_WITH_SIMULATOR_ID"],"timeout_sec":1800},
+    {"name":"swift-format","category":"lint","tier":"quick","command":["swift","format","lint","--strict","--recursive","Sources","Tests"],"timeout_sec":300},
+    {"name":"secret-patterns","category":"security","tier":"quick","command":["{python}","scripts/scan_secrets.py"],"timeout_sec":120},
+    {"name":"architecture-contracts","category":"architecture","tier":"full","command":["xcodebuild","test","-project","YourApp.xcodeproj","-scheme","YourApp","-only-testing:YourAppTests/ArchitectureTests","-destination","platform=iOS Simulator,id=REPLACE_WITH_SIMULATOR_ID"],"timeout_sec":1200},
+    {"name":"ios-simulator-build","category":"build","tier":"full","command":["xcodebuild","build","-project","YourApp.xcodeproj","-scheme","YourApp","-sdk","iphonesimulator","CODE_SIGNING_ALLOWED=NO"],"timeout_sec":1800}
+  ]
+}

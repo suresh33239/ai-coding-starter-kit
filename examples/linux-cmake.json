@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"name":"ctest","category":"tests","tier":"quick","command":["ctest","--test-dir","build","--output-on-failure"],"timeout_sec":1200},
+    {"name":"clang-tidy","category":"lint","tier":"quick","command":["clang-tidy","src/main.cpp","--","-std=c++20"],"timeout_sec":600},
+    {"name":"secret-patterns","category":"security","tier":"quick","command":["{python}","scripts/scan_secrets.py"],"timeout_sec":120},
+    {"name":"architecture-tests","category":"architecture","tier":"full","command":["ctest","--test-dir","build","-R","architecture"],"timeout_sec":600},
+    {"name":"build","category":"build","tier":"full","command":["cmake","--build","build"],"timeout_sec":1200}
+  ]
+}

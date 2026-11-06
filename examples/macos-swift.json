@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "steps": [
+    {"name":"swift-tests","category":"tests","tier":"quick","command":["swift","test"],"timeout_sec":1200},
+    {"name":"swift-format","category":"lint","tier":"quick","command":["swift","format","lint","--strict","--recursive","Sources","Tests"],"timeout_sec":300},
+    {"name":"secret-patterns","category":"security","tier":"quick","command":["{python}","scripts/scan_secrets.py"],"timeout_sec":120},
+    {"name":"architecture-tests","category":"architecture","tier":"full","command":["swift","test","--filter","ArchitectureTests"],"timeout_sec":600},
+    {"name":"release-build","category":"build","tier":"full","command":["swift","build","-c","release"],"timeout_sec":1200}
+  ]
+}

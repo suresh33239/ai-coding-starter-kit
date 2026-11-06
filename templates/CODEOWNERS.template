@@ -1,0 +1,9 @@
+# Copy to .github/CODEOWNERS and replace with the actual GitHub owner(s).
+# This template does NOTHING until installed and required owner review is enabled.
+* @YOUR_GITHUB_USERNAME
+/.github/CODEOWNERS @YOUR_GITHUB_USERNAME
+/.github/workflows/ @YOUR_GITHUB_USERNAME
+/AGENTS.md @YOUR_GITHUB_USERNAME
+/verification.json @YOUR_GITHUB_USERNAME
+/scripts/ @YOUR_GITHUB_USERNAME
+/docs/OWNER_APPROVALS.md @YOUR_GITHUB_USERNAME
