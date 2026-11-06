@@ -108,6 +108,16 @@ class ConfigurationTests(unittest.TestCase):
         with self.assertRaisesRegex(verify.ConfigurationError, "tests step"):
             verify.selected_steps(entries, "quick")
 
+    def test_all_platform_examples_are_valid_configuration_templates(self) -> None:
+        project = Path(__file__).resolve().parent.parent
+        examples = sorted((project / "examples").glob("*.json"))
+        self.assertGreaterEqual(len(examples), 8)
+        for example in examples:
+            with self.subTest(example=example.name):
+                configured = verify.load_config(example, project)
+                self.assertTrue(verify.selected_steps(configured, "quick"))
+                self.assertTrue(verify.selected_steps(configured, "full"))
+
 
 class ExecutionTests(unittest.TestCase):
     def test_passing_step(self) -> None:

@@ -2,6 +2,20 @@
 
 The runner uses Python 3.11+ with **only the standard library**. Wrapper scripts work on Windows PowerShell and POSIX shells and delegate to the same implementation.
 
+## Using this in your own app (no coding knowledge needed)
+
+The **verification engine** (`scripts/verify.py`, `.ps1` and `.sh`) is reusable. The checked-in **`verification.json` is NOT a universal test suite**: it tests the files and Python tools in this starter kit. `scripts/check_template.py` and the kit's own test files are also specific to this repository.
+
+If you type `Start` with your real project open, the AI agent should:
+
+1. **Look first:** Detect the project's platform, language, build tools, operating system, current tests, and any working checks. Reuse what already exists.
+2. **Explain the proposal:** Choose an example from `examples/`, list the actual app checks to set up (quick versus major-stage), flag missing tests/tools, estimate time/cost, and ask the owner before editing.
+3. **Set it up after approval:** Create or adapt `verification.json` with real commands for this project and OS. Never copy the kit's default checks unchanged. Keep existing build scripts and tests intact.
+4. **Preview, then check:** Run `--mode quick --dry-run` first. That only lists what would run. After owner approval, run a focused check and record the result in `reports/`.
+5. **Report honestly:** A missing SDK, absent task or unsupported platform is **Blocked / Not tested**—not a pass. Recommend only the minimum additional tests needed now. Save larger checks for approved milestones.
+
+Android example: macOS/Linux typically use `./gradlew`; Windows uses `gradlew.bat` from the project folder. See `examples/android-gradle.json` and `examples/android-gradle-windows.json`. Both are **examples requiring confirmation of actual project tasks**. iOS builds and simulator tests generally require macOS/Xcode. The assistant should handle these details; don't ask a beginner to guess.
+
 ## Commands
 
 ```text

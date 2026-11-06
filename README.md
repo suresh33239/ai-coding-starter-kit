@@ -23,6 +23,8 @@ You don't have to build everything, pay for subscriptions, or publish an app. A 
 
 The assistant should begin by asking **what you want to build, who it's for, and what problem it solves**. It should help you explore the idea and plan your first small version **before writing code**.
 
+**You don't need to know how to configure tests.** Once there's an actual app, the assistant should inspect its tools and existing tests, recommend a small verification setup, and configure it **after you approve the plan**. It should tell you in everyday language what each check does and what it cannot test.
+
 **Already have a project?** Copy `AGENTS.md`, `START_HERE.md`, the relevant planning files, `docs/`, `scripts/`, and `templates/` into your **project's main folder**. Check for files with the same names first: don't overwrite an existing `AGENTS.md`, README, `.gitignore`, workflow, or testing setup. Merge instructions carefully and keep your existing project working. Then open the project with your assistant and say `Start`. It should inspect what you already have before suggesting changes.
 
 `Start` is a direction from this kit, **not a built-in command in every AI tool**. If nothing happens, say: *“Read AGENTS.md and START_HERE.md in this project, then Start.”*
@@ -90,11 +92,11 @@ Generated files in these folders are **ignored by Git by default**, except for t
 
 ## Want to customize the checks? (Optional)
 
-You can leave this until you've decided what to build. If you already have a working app or know your development tools, these are the next steps:
+You can leave this until you've decided what to build. **If you're new to coding, ask your AI assistant to do these setup steps and explain its plan before changing files.** You do not need to edit JSON or know build commands yourself.
 
 1. Start with a **read-only project review**. Ask the assistant what already works, what needs attention, and which questions still matter. See the [starter prompt](docs/START_HERE_PROMPT.md).
 2. Make private copies of the budget and prompt-log templates. Save them as `OWNER_LIMITS.local.md` (project root) and `logs/PROMPT_LOG.local.md` (logs folder); both stay out of Git using the supplied `.gitignore` rules. Never commit private information.
-3. Pick the example in `examples/` closest to your app. Use it to create a **project-specific** `verification.json`, replacing the example commands with real commands that work in your project. Preserve checks for tests, code quality, safety, and structure (or document appropriate equivalents).
+3. Have the assistant select the example in `examples/` closest to your app. After inspecting actual build/test commands and getting approval, it should create a **project-specific** `verification.json`. The repository's default configuration **only tests this starter kit** and cannot verify your app. Preserve checks for tests, code quality, safety, and structure (or document appropriate equivalents).
 4. Run `python scripts/verify.py --mode quick --dry-run` to **preview** the checks. This does not run tests. With your approval, run focused checks during development and save the full check for a completed major stage or release candidate.
 5. If you use GitHub, adapt the example automated workflow to your app. Set an actual owner in `templates/CODEOWNERS.template` before using it, and configure protection for your main branch. The files alone cannot enforce these protections. See [Owner setup](docs/OWNER_SETUP.md).
 

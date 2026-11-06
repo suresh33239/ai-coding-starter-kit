@@ -16,6 +16,18 @@ Always read `AGENTS.md` and the project's applicable architecture/testing instru
 
 Treat the standalone message **`Start`** (case-insensitive) as a request to begin **discovery, not coding**. First identify whether the current folder contains an existing application or only this starter kit. Do a bounded, read-only inspection of files, Git state, and available project guidance; never assume the kit's sample tests verify a real app. If there is no app, ask one friendly opening question: **“What would you like to build, who is it for, and what problem should it solve?”** Then follow the idea-research and feasibility process below. If there is an app, summarize the existing state, propose a read-only audit or report the initial findings, and ask only the most important unanswered questions. Do not auto-install, auto-build, modify, spend credits on paid services, or publish merely because the owner said `Start`.
 
+### Set up verification for the *actual* project — the agent does the technical work
+
+When a real application exists (including after the first foundation stage), **you** must identify its language/framework, platform(s), actual build commands, existing test suite, tooling and the owner's development OS. A non-programmer should not have to find Gradle tasks, Xcode schemes, package scripts or edit JSON manually.
+
+1. Inspect build files, scripts and tests **read-only**. Check what tools are already installed; do not install an SDK, package, emulator or paid tool without permission.
+2. Compare with the closest `examples/*.json` configuration and propose **one small project-specific `verification.json`**, with quick checks for everyday work and full checks for major stages. Preserve working tests/CI. Use the correct commands for the current OS (for example, `gradlew.bat` on Windows versus `./gradlew` on macOS/Linux).
+3. Explain the plan in plain English: **what will be tested, what cannot yet be tested, approximate time/cost, and files to change**. Ask for approval before writing verification configuration or changing build/testing tools. If tests are missing, recommend the smallest meaningful starting tests rather than inventing a passing command.
+4. After approval, configure the actual application checks. Remove starter-only commands such as `scripts/check_template.py` and template-specific Python unit tests. The runner `scripts/verify.py` and its `.ps1`/`.sh` wrappers can remain unchanged unless evidence shows a real compatibility problem.
+5. First run `--mode quick --dry-run` to inspect the intended commands. **Dry-run does not test anything.** With permission, run a relevant focused check and report observed results; use `--mode full` only at an approved major checkpoint. A missing tool, unsupported platform or unexecuted check is **Not tested/Blocked**, never Passed. Do not weaken or delete checks to force a green report.
+
+This is a guided setup, not an unattended action triggered by the word `Start`. The owner approves the configuration and first execution; the AI handles the technical details and asks only questions it cannot answer by inspecting the project.
+
 ### First contact: foundation before features
 
 For a **new idea with no application yet**, ask the owner to describe the software, its audience/problem and intended outcome in their own words. Do **not** start coding. Follow `START_HERE.md`: independently research comparable products and substitutes, actual strengths/complaints, currently available plans/pricing in the target region, and credible user feedback. Cite sources and dates; distinguish facts from assumptions and unknowns. Forecast whether to **PROCEED**, **ADJUST**, or **DEFER**, with a smaller viable path and a real owner decision before implementation. Do not automatically endorse every proposed feature, but never dismiss the owner's idea without constructive alternatives. Research depth must match the stakes and budget; do not do a full competitor study for a trivial personal script.
@@ -82,6 +94,8 @@ Never run destructive commands such as `git reset --hard`, force-push, or clean 
 ## 7. Verification policy
 
 The repository runner is `scripts/verify.py`; `scripts/verify.ps1` and `.sh` are wrappers. `quick` is intended for focused checks; `full` runs the configured full suite **at an approved major-stage checkpoint**, not habitually after each change. Both require explicit permission if the scope, time, cost, or environment consequences exceed the current owner authorization.
+
+**The checked-in `verification.json` verifies this starter kit only.** In a consuming project, do not leave it unchanged, claim it verifies an app, or silently rely on sample commands. Follow the agent-led project configuration process above; see `docs/VERIFICATION.md`.
 
 If `verification.json` is missing, malformed, or a required check fails, **stop and report**. Do not fabricate a pass or silently remove a check. No changes to verification code/config/baselines without explicit owner approval and independent review.
 
