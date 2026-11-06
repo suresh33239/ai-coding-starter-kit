@@ -53,9 +53,10 @@ You can use only the parts relevant to your project.
 | --- | --- |
 | Tell the assistant how to work with you | `AGENTS.md` and `START_HERE.md` |
 | Explore competitors and decide whether to build | `IDEA_RESEARCH.md` and `FEASIBILITY.md` |
-| Understand an existing project and its risks | `PROJECT.md` and `AUDIT.md` |
+| Understand an existing project and its risks | `PROJECT.md`, `AUDIT.md`, `QUALITY_REVIEW.md` |
+| Track defects and release blockers clearly | `BACKLOG.md` and `BLOCKERS.md` |
 | Organize work, ideas, milestones, and future versions | `ROADMAP.md`, `BACKLOG.md`, `RELEASES.md` |
-| Prepare for different languages early | `LOCALIZATION.md` |
+| Prepare for different languages early and review translations | `LOCALIZATION.md` and `localization/review.html` |
 | Check whether your app is ready to release | `RELEASE_READINESS.md` and `docs/RELEASE_CHECKLIST.md` |
 | Record your prompts, results, and changed files privately | `templates/PROMPT_LOG.local.template.md` |
 | Set a spending limit and how many prompts you can use | `templates/OWNER_LIMITS.local.template.md` |
@@ -64,6 +65,19 @@ You can use only the parts relevant to your project.
 | Understand permissions, safety, and Git checkpoints | `docs/OWNER_APPROVALS.md`, `docs/OWNER_SETUP.md`, `docs/SECURITY.md` |
 
 The kit also includes basic GitHub workflow and pull-request examples. These are **examples, not ready-made testing setups for every app**. Adapt them to your actual project rather than copying them unchanged.
+
+## Keep your project folder tidy
+
+These folders are included and ready to use:
+
+| Folder | What belongs there |
+| --- | --- |
+| `reports/` | Generated test results, independent review reports, localization audit reports |
+| `logs/` | Private prompt history, diagnostic and build logs |
+| `screenshots/` | Screenshots for bug reports, visual checks and localization reviews |
+| `localization/` | Translation review page, language audit template, review bundles and approval exports |
+
+Generated files in these folders are **ignored by Git by default**, except for the provided templates and tools. This helps prevent private logs, screenshots and candidate translations from being published by accident. Review and sanitize anything before choosing to share it.
 
 ## Keep the budget and workload manageable
 
@@ -79,7 +93,7 @@ The kit also includes basic GitHub workflow and pull-request examples. These are
 You can leave this until you've decided what to build. If you already have a working app or know your development tools, these are the next steps:
 
 1. Start with a **read-only project review**. Ask the assistant what already works, what needs attention, and which questions still matter. See the [starter prompt](docs/START_HERE_PROMPT.md).
-2. Make private copies of the budget and prompt-log templates. Rename them `OWNER_LIMITS.local.md` and `PROMPT_LOG.local.md` and keep them out of Git using the supplied `.gitignore` rules. Never commit private information.
+2. Make private copies of the budget and prompt-log templates. Save them as `OWNER_LIMITS.local.md` (project root) and `logs/PROMPT_LOG.local.md` (logs folder); both stay out of Git using the supplied `.gitignore` rules. Never commit private information.
 3. Pick the example in `examples/` closest to your app. Use it to create a **project-specific** `verification.json`, replacing the example commands with real commands that work in your project. Preserve checks for tests, code quality, safety, and structure (or document appropriate equivalents).
 4. Run `python scripts/verify.py --mode quick --dry-run` to **preview** the checks. This does not run tests. With your approval, run focused checks during development and save the full check for a completed major stage or release candidate.
 5. If you use GitHub, adapt the example automated workflow to your app. Set an actual owner in `templates/CODEOWNERS.template` before using it, and configure protection for your main branch. The files alone cannot enforce these protections. See [Owner setup](docs/OWNER_SETUP.md).
@@ -101,7 +115,7 @@ Neither command gives an assistant permission to run expensive or risky tasks. T
 
 The assistant should suggest saving a Git checkpoint after a tested milestone. It must not silently commit, push, or publish. **A full test run is not needed after every small prompt.**
 
-The checks produce `artifacts/verification-report.json`, showing what ran, how long it took, and what passed or failed. See [Verification](docs/VERIFICATION.md) for details.
+The checks produce `reports/verification-report.json`, showing what ran, how long it took, and what passed or failed. See [Verification](docs/VERIFICATION.md) for details.
 
 ## A few important things to know
 

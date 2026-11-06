@@ -154,7 +154,7 @@ def main(arguments: list[str] | None = None, root: Path = ROOT) -> int:
     parser = argparse.ArgumentParser(description="Run owner-approved configured project checks")
     parser.add_argument("--mode", choices=["quick", "full"], default="quick")
     parser.add_argument("--config", default="verification.json", help="Repo-relative JSON path")
-    parser.add_argument("--report", default="artifacts/verification-report.json", help="Repo-relative report path")
+    parser.add_argument("--report", default="reports/verification-report.json", help="Repo-relative report path")
     parser.add_argument("--dry-run", action="store_true", help="Print plan, do not execute checks")
     args = parser.parse_args(arguments)
     try:
@@ -163,8 +163,8 @@ def main(arguments: list[str] | None = None, root: Path = ROOT) -> int:
         steps = selected_steps(load_config(config_path, root), args.mode)
         if not report_path.suffix.lower() == ".json":
             raise ConfigurationError("Report path must end in .json")
-        if not report_path.is_relative_to((root / "artifacts").resolve()):
-            raise ConfigurationError("Report path must stay under the artifacts/ folder")
+        if not report_path.is_relative_to((root / "reports").resolve()):
+            raise ConfigurationError("Report path must stay under the reports/ folder")
     except ConfigurationError as exc:
         print(f"CONFIGURATION ERROR: {exc}", file=sys.stderr)
         return 2

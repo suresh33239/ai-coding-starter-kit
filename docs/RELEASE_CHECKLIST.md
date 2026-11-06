@@ -6,6 +6,8 @@ Record actual evidence and the final owner verdict in `RELEASE_READINESS.md`. **
 
 - [ ] Scope, release notes, and acceptance criteria approved.
 - [ ] Source diff reviewed; no unrelated or unexplained edits.
+- [ ] Feature/gap/issue review recorded in `QUALITY_REVIEW.md` (or justified Not applicable).
+- [ ] Open release blockers checked against `BLOCKERS.md`; unresolved P0/P1 and accepted limitations disclosed.
 - [ ] CI checks green on **relevant target platforms**; no hidden skips.
 - [ ] Full configured verification completed with a report.
 - [ ] Sensitive dependencies, licenses, secrets, and permissions reviewed.

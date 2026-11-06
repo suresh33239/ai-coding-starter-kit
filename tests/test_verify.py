@@ -141,7 +141,7 @@ class ExecutionTests(unittest.TestCase):
             with redirect_stdout(StringIO()):
                 self.assertEqual(0, verify.main(["--dry-run"], root))
             self.assertFalse(marker.exists())
-            self.assertFalse((root / "artifacts/verification-report.json").exists())
+            self.assertFalse((root / "reports/verification-report.json").exists())
 
     def test_failed_step_causes_nonzero_main_and_report(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -152,7 +152,7 @@ class ExecutionTests(unittest.TestCase):
                                                                  "steps": entries}), encoding="utf-8")
             with redirect_stdout(StringIO()):
                 self.assertEqual(1, verify.main(["--mode", "full"], root))
-            report = json.loads((root / "artifacts/verification-report.json").read_text(encoding="utf-8"))
+            report = json.loads((root / "reports/verification-report.json").read_text(encoding="utf-8"))
             self.assertFalse(report["all_passed"])
             self.assertEqual(1, report["failed_steps"])
 

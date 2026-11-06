@@ -8,13 +8,15 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 REQUIRED = [
     "AGENTS.md", "README.md", "LICENSE", "verification.json",
-    "START_HERE.md", "IDEA_RESEARCH.md", "FEASIBILITY.md",
+    "START_HERE.md", "IDEA_RESEARCH.md", "FEASIBILITY.md", "QUALITY_REVIEW.md", "BLOCKERS.md",
     "LOCALIZATION.md", "RELEASE_READINESS.md",
     "PROJECT.md", "ROADMAP.md", "BACKLOG.md", "RELEASES.md", "AUDIT.md",
     "docs/OWNER_APPROVALS.md", "docs/OWNER_SETUP.md",
     "docs/VERIFICATION.md", "docs/PLATFORMS.md",
     "docs/RELEASE_CHECKLIST.md", "docs/DECISION_LOG.md", "docs/START_HERE_PROMPT.md",
-    "scripts/verify.py", "scripts/verify.ps1", "scripts/verify.sh",
+    "scripts/verify.py", "scripts/verify.ps1", "scripts/verify.sh", "scripts/localization_review.py",
+    "localization/README.md", "localization/LOCALE_AUDIT.md", "localization/review.html", "localization/sample-catalog.json",
+    "reports/.gitkeep", "logs/.gitkeep", "screenshots/.gitkeep",
     "scripts/scan_secrets.py", ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/workflows/guardrails.yml", "templates/CODEOWNERS.template",
     "templates/PROMPT_LOG.local.template.md", "templates/OWNER_LIMITS.local.template.md",

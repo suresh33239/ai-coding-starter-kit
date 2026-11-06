@@ -1,6 +1,6 @@
 # Private AI prompt history
 
-**Copy this file to the project root as `PROMPT_LOG.local.md`.** That destination is ignored by Git; this template itself may be published.
+**Copy this file to `logs/PROMPT_LOG.local.md` inside your project.** The `logs/` directory is ignored by Git except its placeholder; this template itself may be published.
 
 Record each project-related prompt and its outcome, including read-only requests. Use the owner's words where practical, but **replace passwords, tokens, personal data, private customer details, and other sensitive material with `[REDACTED]`**. Never paste secrets into logs. Do not commit the private log to a public GitHub repository. This is an instruction-based log, not a guaranteed automatic capture of every chat message; different agents may require separate hooks for automation.
 

@@ -3,6 +3,14 @@ __pycache__/
 .venv/
 venv/
 artifacts/
+/reports/*
+!/reports/.gitkeep
+/logs/*
+!/logs/.gitkeep
+/screenshots/*
+!/screenshots/.gitkeep
+/localization/*.json
+!/localization/sample-catalog.json
 .idea/
 .DS_Store
 Thumbs.db

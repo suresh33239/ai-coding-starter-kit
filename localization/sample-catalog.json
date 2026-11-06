@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "base_locale": "en",
+  "target_locales": ["te"],
+  "high_risk_keys": ["privacy_notice"],
+  "strings": {
+    "en": {
+      "welcome": "Hello {name}",
+      "save": "Save",
+      "privacy_notice": "Your information stays on this device"
+    },
+    "te": {
+      "welcome": "",
+      "save": "",
+      "privacy_notice": ""
+    }
+  }
+}

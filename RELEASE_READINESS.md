@@ -10,18 +10,23 @@
 | Owner approval and date | Not approved |
 | Target date | TBD, owner-confirmed only |
 | Source commit / build artifact | Not identified |
+| Quality review and date | Not assessed — see `QUALITY_REVIEW.md` |
+| Blocker register status | Not assessed — see `BLOCKERS.md` |
 
 ## Release gates (mark Pass, Blocked, Not tested, Not applicable)
 
 | Area | Status | Evidence / next action |
 | --- | --- | --- |
 | MVP scope and exclusions accepted | Not tested | Owner review |
+| Approved features cross-checked for missing/incomplete behavior | Not tested | `QUALITY_REVIEW.md` feature inventory |
+| Outstanding P0/P1 issues and accepted P2 deferrals | Not tested | `BLOCKERS.md` with linked retest evidence |
 | Current official SDK/OS/store requirements checked | Not tested | Link and check date |
 | Relevant platform builds and focused tests | Not tested | Actual commands/results |
 | Full stage verification approved and passed | Not tested | Report link (if applicable) |
 | Install, upgrade, uninstall, data recovery | Not tested | Actual devices and results |
 | Security, privacy, permissions, sensitive data | Not tested | Audit evidence |
 | Accessibility and essential locale checks | Not tested | Devices/locales |
+| Localization completeness, placeholders and review decisions | Not tested | `LOCALIZATION.md` and `reports/` evidence, or Not applicable |
 | Pricing, subscriptions, in-app payments, costs | Not tested | Or Not applicable |
 | Website, policies, support contact, store assets | Not tested | Or Not applicable |
 | Developer/publisher account, signing and approval | Not tested | Or Not applicable |
@@ -35,7 +40,7 @@
 
 ## Decision
 
-- **READY / NOT READY / PRIVATE-USE COMPLETE:** Not decided
+- **READY / NOT READY / READY WITH ACCEPTED LIMITATIONS / PRIVATE-USE COMPLETE:** Not decided
 - Evidence and blockers discussed with owner: **No**
 - Owner authorizes publication to exact target: **No**
 - Release date and actual published version: **Not published**

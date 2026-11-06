@@ -21,6 +21,8 @@
 | --- | --- | --- | --- | --- |
 | — | No findings recorded yet | — | Initial read-only audit | Pending |
 
+**Audit independence:** Treat old audit reports, previous agent messages and roadmaps as pointers only. Verify against current files, requirements, tests and observed behavior; note the reviewer and whether they also implemented the changes. Never inherit a previous "all clear" without evidence. For a deeper independent feature, gap, issue, UI and regression review, use `QUALITY_REVIEW.md` at major milestones. Track release-stopping findings in `BLOCKERS.md`.
+
 ## Essential questions for the owner
 
 Ask no more than five high-value questions initially. Do not ask for details already answered in `PROJECT.md`, code, or existing documents.

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Translation Review — AI Coding Starter Kit</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
+    body { max-width: 1250px; margin: 0 auto; padding: 24px; line-height: 1.45; background: Canvas; color: CanvasText; }
+    h1 { margin: 0 0 8px; font-size: 1.7rem; }
+    h2 { font-size: 1.05rem; }
+    p { margin: 10px 0; }
+    .muted { color: GrayText; }
+    .panel { border: 1px solid color-mix(in srgb, CanvasText 25%, transparent); border-radius: 12px; padding: 16px; margin: 14px 0; }
+    .controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: end; }
+    .controls > label { display: grid; gap: 4px; font-size: .9rem; }
+    input, select, textarea, button { font: inherit; }
+    input[type="search"], select, textarea { border: 1px solid GrayText; border-radius: 7px; padding: 7px; background: Canvas; color: CanvasText; }
+    input[type="search"] { min-width: 215px; }
+    button { border: 1px solid #5577ac; padding: 8px 12px; border-radius: 8px; cursor: pointer; background: #e9f2ff; color: #123963; }
+    button:disabled { cursor: not-allowed; opacity: .5; }
+    button.primary { background: #145dc1; color: white; }
+    button.warn { background: #fff4e4; color: #754407; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #3c91e6; outline-offset: 2px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; vertical-align: top; border-bottom: 1px solid color-mix(in srgb, CanvasText 18%, transparent); padding: 10px 8px; }
+    th { font-size: .88rem; }
+    td textarea { min-width: 240px; width: 100%; min-height: 70px; box-sizing: border-box; resize: vertical; }
+    td.source { min-width: 200px; max-width: 330px; overflow-wrap: anywhere; }
+    td strong, td code { overflow-wrap: anywhere; }
+    td.actions { min-width: 148px; }
+    .actions button { padding: 5px 7px; font-size: .83rem; margin: 3px 2px 0 0; }
+    .badge { display: inline-block; padding: 2px 7px; border-radius: 20px; background: #e6e6e6; color: #262626; font-size: .78rem; margin: 2px 4px 0 0; }
+    .approved { background: #d9f7e6; color: #15582c; }
+    .rejected { background: #ffe4e2; color: #88251d; }
+    .pending { background: #fff3d6; color: #795508; }
+    .pagebar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 10px; }
+    #message { min-height: 24px; font-weight: 600; }
+    [hidden] { display: none !important; }
+    @media (max-width: 700px) { body { padding: 12px; } .panel { padding: 10px; } th, td { padding: 7px 4px; } }
+    @media (prefers-color-scheme: dark) { button { background: #21364e; color: #f5f8ff; } button.primary { background: #3678d0; } button.warn { background: #553d22; color: #fff0d9; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Translation Review</h1>
+    <p>Review many languages in one place, on your own computer. <strong>No sign-in or internet connection required.</strong> Nothing is written to your app automatically.</p>
+    <div class="panel">
+      <label for="file"><strong>1. Open a review bundle</strong> (from <code>scripts/localization_review.py audit</code>)</label>
+      <p><input id="file" type="file" accept=".json,application/json"></p>
+      <p class="muted">Auto-approve checks only obvious formatting risks—not translation meaning. Finance, medical, privacy and other sensitive text needs human review. Export decisions, validate them, then ask your AI to preview an import.</p>
+      <p id="message" role="status" aria-live="polite">Choose a JSON file to begin.</p>
+    </div>
+    <section id="workspace" hidden>
+      <div class="panel">
+        <h2>2. Find and review translations</h2>
+        <p id="summary" aria-live="polite"></p>
+        <div class="controls">
+          <label>Language<select id="locale"><option value="">All languages</option></select></label>
+          <label>Decision<select id="decision"><option value="">All decisions</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></label>
+          <label>Find key or text<input id="search" type="search" placeholder="Search..." autocomplete="off"></label>
+          <label><input id="issues" type="checkbox"> Has audit warnings</label>
+        </div>
+        <p><strong>Bulk actions apply to ALL matching entries across every page</strong>, not only the 50 currently shown.</p>
+        <div class="controls">
+          <button id="approve-all" class="warn">Approve all matching</button>
+          <button id="reject-all">Reject all matching</button>
+          <button id="auto-approve">Auto-approve format-safe matching</button>
+          <button id="reset">Reset matching to pending</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Locale / key</th><th>Base text</th><th>Suggested translation (editable)</th><th>Audit warnings</th><th>Decision</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="pagebar">
+        <span id="page-label"></span>
+        <div><button id="prev">Previous</button> <button id="next">Next</button></div>
+      </div>
+      <div class="panel">
+        <h2>3. Export your decisions</h2>
+        <p>Download a JSON file containing every entry's status and edits. <strong>Approval here is not permission to modify production files.</strong> The Python tool validates the export and creates a separate proposed catalog.</p>
+        <button id="export" class="primary">Download review-decisions.json</button>
+      </div>
+    </section>
+    <p class="muted">Need help? Read <code>localization/README.md</code>. This is a reusable review page, not a language-quality guarantee.</p>
+  </main>
+  <script>
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+    const PAGE_SIZE = 50;
+    let bundle = null;
+    let entries = [];
+    let page = 0;
+
+    function inform(message) { $('message').textContent = message; }
+    function matching() {
+      const locale = $('locale').value, decision = $('decision').value;
+      const query = $('search').value.trim().toLocaleLowerCase();
+      return entries.filter((e) => (!locale || e.locale === locale) &&
+        (!decision || e.status === decision) && (!$('issues').checked || e.issues.length) &&
+        (!query || [e.locale, e.key, e.source, e.translation].some((x) => x.toLocaleLowerCase().includes(query))));
+    }
+    function cell(row, className) {
+      const el = document.createElement('td');
+      if (className) el.className = className;
+      row.appendChild(el);
+      return el;
+    }
+    function badge(parent, label, style) {
+      const el = document.createElement('span');
+      el.className = 'badge ' + (style || '');
+      el.textContent = label;
+      parent.appendChild(el);
+    }
+    function button(parent, label, callback) {
+      const el = document.createElement('button');
+      el.type = 'button'; el.textContent = label;
+      el.addEventListener('click', callback);
+      parent.appendChild(el);
+    }
+    function render() {
+      if (!bundle) return;
+      const list = matching();
+      const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+      page = Math.min(page, pages - 1);
+      const count = (status) => entries.filter((e) => e.status === status).length;
+      $('summary').textContent = `${entries.length} total • ${count('approved')} approved • ${count('rejected')} rejected • ${count('pending')} pending • ${list.length} matching`;
+      const rows = $('rows'); rows.replaceChildren();
+      for (const e of list.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)) {
+        const tr = document.createElement('tr');
+        const name = cell(tr), title = document.createElement('strong');
+        title.textContent = e.locale + ' / ' + e.key; name.appendChild(title);
+        cell(tr, 'source').textContent = e.source;
+        const edit = cell(tr), area = document.createElement('textarea');
+        area.value = e.translation;
+        area.setAttribute('aria-label', `Translation for ${e.key} in ${e.locale}`);
+        area.addEventListener('input', () => {
+          if (area.value !== e.translation) { e.translation = area.value; e.status = 'pending'; e.edited = true; }
+        });
+        edit.appendChild(area);
+        const warning = cell(tr);
+        if (!e.issues.length) badge(warning, 'No format warnings', 'approved');
+        for (const issue of e.issues) badge(warning, issue, 'pending');
+        if (e.edited) badge(warning, 'Edited; validate on export', 'pending');
+        const actions = cell(tr, 'actions');
+        badge(actions, e.status, e.status);
+        button(actions, 'Approve', () => { e.status = 'approved'; render(); });
+        button(actions, 'Reject', () => { e.status = 'rejected'; render(); });
+        button(actions, 'Undo', () => { e.status = 'pending'; render(); });
+        rows.appendChild(tr);
+      }
+      $('page-label').textContent = `Page ${page + 1} of ${pages}`;
+      $('prev').disabled = page === 0;
+      $('next').disabled = page >= pages - 1;
+    }
+    function bulk(status, onlyAuto = false) {
+      const selected = matching().filter((e) => !onlyAuto || (e.auto_eligible && !e.edited && e.translation === e.initialTranslation));
+      if (!selected.length) { inform('No matching entries eligible for that action.'); return; }
+      const flagged = selected.filter((e) => e.issues.length).length;
+      const text = `${status === 'approved' ? 'Approve' : status === 'rejected' ? 'Reject' : 'Reset'} ${selected.length} matching entries?` +
+        (flagged ? ` ${flagged} have audit warnings.` : '') + ' This only records decisions; it does not change app files.';
+      if (!window.confirm(text)) return;
+      selected.forEach((e) => { e.status = status; });
+      page = 0; render(); inform(`Updated ${selected.length} decisions. Remember to export when finished.`);
+    }
+    function validate(input) {
+      if (!input || input.schema_version !== 1 || typeof input.catalog_fingerprint !== 'string' || !Array.isArray(input.entries)) {
+        throw new Error('This is not a supported review bundle (schema version 1).');
+      }
+      const ids = new Set();
+      for (const e of input.entries) {
+        if (!e || ['id', 'key', 'locale', 'source', 'translation'].some((k) => typeof e[k] !== 'string') ||
+            !Array.isArray(e.issues) || e.issues.some((x) => typeof x !== 'string') ||
+            typeof e.auto_eligible !== 'boolean' || ids.has(e.id)) {
+          throw new Error('Review bundle contains an invalid or duplicate entry.');
+        }
+        ids.add(e.id);
+      }
+    }
+    $('file').addEventListener('change', async (event) => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      try {
+        const parsed = JSON.parse(await file.text()); validate(parsed);
+        bundle = parsed;
+        entries = parsed.entries.map((e) => ({ ...e, issues: [...e.issues], status: 'pending', edited: false,
+          initialTranslation: e.translation }));
+        const locales = [...new Set(entries.map((e) => e.locale))].sort();
+        $('locale').replaceChildren(new Option('All languages', ''), ...locales.map((x) => new Option(x, x)));
+        $('decision').value = ''; $('search').value = ''; $('issues').checked = false;
+        $('workspace').hidden = false; page = 0; render();
+        inform(`Loaded ${entries.length} entries from ${file.name}. Original app resources are untouched.`);
+      } catch (error) {
+        bundle = null; entries = []; $('workspace').hidden = true;
+        inform('Unable to load bundle: ' + error.message);
+      }
+    });
+    for (const id of ['locale', 'decision', 'search', 'issues']) {
+      $(id).addEventListener(id === 'search' ? 'input' : 'change', () => { page = 0; render(); });
+    }
+    $('approve-all').addEventListener('click', () => bulk('approved'));
+    $('reject-all').addEventListener('click', () => bulk('rejected'));
+    $('auto-approve').addEventListener('click', () => bulk('approved', true));
+    $('reset').addEventListener('click', () => bulk('pending'));
+    $('prev').addEventListener('click', () => { page--; render(); });
+    $('next').addEventListener('click', () => { page++; render(); });
+    $('export').addEventListener('click', () => {
+      if (!bundle) return;
+      const output = {schema_version: 1, catalog_fingerprint: bundle.catalog_fingerprint,
+        exported_utc: new Date().toISOString(), decisions: entries.map((e) => ({id: e.id, locale: e.locale,
+          key: e.key, source: e.source, translation: e.translation, status: e.status}))};
+      const url = URL.createObjectURL(new Blob([JSON.stringify(output, null, 2) + '\n'], {type: 'application/json'}));
+      const link = document.createElement('a');
+      link.href = url; link.download = 'review-decisions.json'; document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      inform('Decisions exported. Validate them with the Python script before proposing any app changes.');
+    });
+  </script>
+</body>
+</html>

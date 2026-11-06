@@ -8,7 +8,7 @@ The runner uses Python 3.11+ with **only the standard library**. Wrapper scripts
 python scripts/verify.py --mode quick --dry-run
 python scripts/verify.py --mode quick
 python scripts/verify.py --mode full
-python scripts/verify.py --mode full --report artifacts/custom-report.json
+python scripts/verify.py --mode full --report reports/custom-report.json
 ```
 
 `quick` runs only steps marked `quick`. It is suitable for ordinary focused iteration. `full` runs both `quick` and `full` steps **after an approved major stage or for a release candidate**—it should not be run after every small prompt. It does **not** mean every possible platform test exists; only configured steps can be claimed. `--dry-run` validates configuration and lists commands but runs nothing.
@@ -30,7 +30,7 @@ This illustrative fragment is **not valid as a complete configuration** until th
 
 The only placeholder is `{python}`, replaced by the interpreter currently running the verifier. Commands are passed as argument arrays **without a shell**. Nevertheless, they can execute arbitrary tools/scripts, so owners must review `verification.json` and invoked scripts before granting run permission.
 
-`artifacts/verification-report.json` records one result per executed step and a summary; a nonzero exit, missing command, or timeout makes the overall verification fail. The runner only writes report files **inside `artifacts/`**. It does not persist raw command output (which might contain private information), so an owner-authorized diagnostic rerun may be needed for failures. The runner continues after ordinary failures to collect the remaining evidence. Review the report before changes are merged.
+`reports/verification-report.json` records one result per executed step and a summary; a nonzero exit, missing command, or timeout makes the overall verification fail. The runner only writes report files **inside `reports/`**. It does not persist raw command output (which might contain private information), so an owner-authorized diagnostic rerun may be needed for failures. The runner continues after ordinary failures to collect the remaining evidence. Review the report before changes are merged. Generated reports stay Git-ignored unless the owner explicitly chooses to publish a sanitized copy.
 
 ## Baseline and regression checks
 
