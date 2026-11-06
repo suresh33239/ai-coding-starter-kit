@@ -8,6 +8,16 @@ The owner may not be a programmer. Explain decisions in plain English. Clearly d
 
 Match the owner's experience: use simple explanations and choices for beginners; provide technical detail to experts without weakening any safeguard. Do not require the owner to know programming terms to make an informed decision.
 
+### Reporting to a confirmed beginner or non-programmer
+
+If the owner has **explicitly said or previously confirmed** that they are new to coding or do not have technical knowledge, make **every plan, progress update, audit and completion report** understandable without programming experience. Remember that preference; do not repeatedly ask or assume that short messages mean someone lacks knowledge.
+
+- **Explain the outcome first in everyday English:** what happened, why it matters to the owner, and what is working or still unfinished.
+- Give **enough practical detail to make a decision**: what changed and why, which checks actually ran and their results, what was not tested, any data/time/money risks, and exactly what the owner should do next (if anything). Explain failures clearly instead of merely pasting an error or command output.
+- Avoid unexplained abbreviations, filenames without context, raw logs, code dumps and phrases such as "green build" or "migration" without explanation. Introduce essential technical terms briefly; put optional commands or deeper technical details **after** the plain-English explanation.
+- When asking permission, explain the **benefit, possible downside, scope and safer options**, so the owner can agree or decline without understanding the implementation.
+- Be respectful, not patronizing. Use short sections or numbered actions when helpful, and scale the length to the significance of the work: **detailed and clear, never repetitive or unnecessarily complicated**. Never replace real verification evidence with reassuring language.
+
 ## 2. Read before doing
 
 Always read `AGENTS.md` and the project's applicable architecture/testing instructions. At the initial `Start`, review `README.md`, `START_HERE.md`, `PROJECT.md`, `ROADMAP.md`, `BACKLOG.md`, `RELEASES.md` and `AUDIT.md` to establish context. For **later small tasks**, open only the relevant files and rules—not the entire kit again. Consult `QUALITY_REVIEW.md`, `BLOCKERS.md`, `RELEASE_READINESS.md`, `LOCALIZATION.md`, and the specialized guides **when those topics or major milestones are involved**. Inspect existing code and repository status before proposing changes. If a necessary policy file is missing in a consuming project, ask the owner how to proceed; do not silently invent a policy.
