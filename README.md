@@ -64,7 +64,7 @@ You can use only the parts relevant to your project.
 | Set a spending limit and how many prompts you can use | `templates/OWNER_LIMITS.local.template.md` |
 | Check your project without running every test each time | `scripts/verify.py`, `scripts/verify.ps1`, `scripts/verify.sh` |
 | Set up checks for your specific app or operating system | `verification.json`, `examples/`, and `docs/VERIFICATION.md` |
-| Understand permissions, safety, and Git checkpoints | `docs/OWNER_APPROVALS.md`, `docs/OWNER_SETUP.md`, `docs/SECURITY.md` |
+| Understand permissions, safety, and Git checkpoints | `docs/OWNER_APPROVALS.md`, `docs/OWNER_SETUP.md`, `SECURITY.md` |
 
 The kit also includes basic GitHub workflow and pull-request examples. These are **examples, not ready-made testing setups for every app**. Adapt them to your actual project rather than copying them unchanged.
 

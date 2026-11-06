@@ -28,4 +28,10 @@ jobs:
         with:
           python-version: '3.11'
       - name: Verify template
+        id: verify
         run: python scripts/verify.py --mode full
+      # Only these starter-kit tests use synthetic data. Keep arbitrary app
+      # command output hidden by the reusable verifier unless explicitly reviewed.
+      - name: Diagnose starter unit tests if verification fails
+        if: ${{ failure() && steps.verify.outcome == 'failure' }}
+        run: python -m unittest discover -s tests -v
