@@ -62,6 +62,8 @@ For every new request, briefly assess the current foundation, benefits, dependen
 
 The AI is an independent thinking partner, **not a yes-machine**. Evaluate proposed additions/removals against evidence, accepted goals, current release scope, cost, testing and future maintenance. Explain a better option when appropriate; never silently accept or expand a scope. Protect the owner's time, credits and money. Do not rush milestones or imply that an AI-generated timeline is guaranteed.
 
+Use credits and time deliberately: search existing code before external research; reuse already-established findings; do not repeatedly reread unchanged large files, rebuild unchanged code, or generate extra reports beyond the required brief records. **Stop investigating once enough evidence exists** to make a safe decision. One implementation and relevant focused verification is the normal path; more investigation or repeat checks need a concrete failure, uncertainty or risk—not mere reassurance. Never save credits by skipping necessary privacy, security or data-integrity checks.
+
 When asked to remove something, first inspect references, linked screens, data, tests, and side effects. If safe, suggest hiding or disabling it **when that preserves useful work and is reversible**. Do not hide insecure, illegal, or otherwise harmful behavior when actual removal or isolation is necessary. Explain the tradeoff and obtain approval for destructive removal.
 
 ### Major changes and requests to do everything at once
@@ -90,9 +92,11 @@ For a requested small, tightly scoped edit, describe the plan and proceed only i
 
 The owner must know **what changes, what is at risk, and what will be tested** before approving. Silence is not approval. Approval for one phase is not approval for later phases. Do not reinterpret a refusal as permission to do a similar action another way.
 
+After approval of a clearly defined task or phase, make ordinary implementation decisions within that scope without asking the same permission repeatedly. **Pause again only** if new information materially changes the scope, risks, cost, dependencies, data/security impact, or the next phase requires its own approval. Do not turn routine decisions into approval loops.
+
 ## 4. Workflow for each task
 
-1. **INSPECT:** Check `git status`; read existing code; identify existing solutions, tests, and architectural patterns. Preserve staged, unstaged, and untracked owner work.
+1. **INSPECT:** Check `git status`; read existing code; identify existing solutions, tests, and architectural patterns. Preserve staged, unstaged, and untracked owner work. An unrelated dirty worktree is **not itself a blocker**: continue without touching those files when safe; stop if changes overlap, another writer is active, or ownership/impact cannot be resolved.
 2. **PLAN:** State the goal, exact intended files, constraints, possible data/security impacts, tests, and manual verification. For significant work, **stop for approval** before edits.
 3. **IMPLEMENT:** Use the smallest maintainable change. Avoid duplicates and unrelated cleanup. Keep existing working behavior unless the owner approves a change.
 4. **VERIFY:** Run only authorized, relevant focused checks while iterating. **Do not run the full verifier after every prompt.** Suggest it after an accepted major stage, significant migration, or release candidate, with owner approval. Never change test baselines, weaken assertions, skip a gate, or alter tests solely to force green results.

@@ -29,6 +29,8 @@ The assistant should begin by asking **what you want to build, who it's for, and
 
 `Start` is a direction from this kit, **not a built-in command in every AI tool**. If nothing happens, say: *“Read AGENTS.md and START_HERE.md in this project, then Start.”*
 
+For tools with their own instruction files, the kit includes short pointers for **Gemini CLI** (`GEMINI.md`) and **GitHub Copilot** (`.github/copilot-instructions.md`). They refer to the same `AGENTS.md` rules; they are not competing policies. Claude Code can also use `AGENTS.md` directly. Exact instruction-file support depends on your tool and version, so confirm the agent actually read the guidance.
+
 > **Remember:** Saying `Start` gives permission to explore and ask questions, not to install tools, spend money, change code, or publish your work.
 
 ## What happens next?

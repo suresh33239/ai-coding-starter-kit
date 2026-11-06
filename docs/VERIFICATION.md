@@ -27,6 +27,8 @@ python scripts/verify.py --mode full --report reports/custom-report.json
 
 `quick` runs only steps marked `quick`. It is suitable for ordinary focused iteration. `full` runs both `quick` and `full` steps **after an approved major stage or for a release candidate**—it should not be run after every small prompt. It does **not** mean every possible platform test exists; only configured steps can be claimed. `--dry-run` validates configuration and lists commands but runs nothing.
 
+**When a focused check fails:** identify whether the failure was caused by this task, is pre-existing, or is unrelated. Fix confirmed in-scope regressions and rerun their affected checks. Report unrelated or historical failures with evidence and ask before expanding into a separate repair. Do not chase flaky tests or repeatedly verify unchanged components merely to obtain a green result. Never suppress, weaken, delete or quietly skip a valid failing test. A focused pass is **not** a claim that full integration, every platform, or a physical device was tested.
+
 Each step needs a `name`, one of four baseline `category` values (`tests`, `lint`, `security`, `architecture`), a `tier`, an argument-array `command`, and a `timeout_sec`. A `build` or `other` category is also allowed for extra steps. Configuration must include all four baseline categories and at least one `tests` step. The runner refuses duplicate names, unknown keys, missing checks, unsupported placeholders, invalid working directories, and invalid commands. Configured steps are **never silently skipped**. If the platform cannot run a step, create a **separate platform-specific configuration and job** rather than making it pass by omission.
 
 Example:
