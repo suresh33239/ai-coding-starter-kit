@@ -49,7 +49,9 @@ The only placeholder is `{python}`, replaced by the interpreter currently runnin
 ## Baseline and regression checks
 
 - Unit/integration tests should retain meaningful assertions and coverage; test **count alone** cannot prove quality.
-- Where a framework exposes stable test counts, an app-specific adapter may compare them to an owner-approved baseline. Do not auto-increase or silently lower baselines.
+- For multi-module or multi-package projects, have the agent list the actual testable components and compare them with configured verification steps. Every relevant component must be covered, or explicitly reported **Not tested** with a reason. A passed test task for one module is not proof that the others ran. Do not import a Gradle-only module registry into an unrelated app.
+- Where a framework exposes stable test counts, an app-specific adapter may compare **fresh results** with an owner-approved baseline. Detect zero tests, missing results, unexpected count drops and skipped suites; do not trust stale test-result files or a cached build as proof that tests executed now. Test counts are a tripwire, not a quality score. A deliberate reduction is possible with owner approval and documented stronger replacement coverage.
+- Important bug fixes should have a focused regression test for the actual failure path where feasible. For apps storing data, consider unreadable/corrupt data, interrupted saves, failed recovery, older formats and access isolation **when relevant**; use synthetic fixtures rather than real user records.
 - Compile/build, lint/static analysis, architecture boundaries, secret scans, migration checks, platform tests, accessibility, and physical-device verification belong in the app's **own** configuration and release checklist.
 - A local full pass does not replace CI, production configuration review, or physical-device testing.
 

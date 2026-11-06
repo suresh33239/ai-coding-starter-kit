@@ -53,6 +53,20 @@ Assign stable IDs `Q-001`, `Q-002`... and prioritize by impact; do not invent se
 | --- | --- | --- | --- | --- | --- | --- |
 | — | — | — | No review performed | Unknown | Review first | Pending |
 
+## Practical Definition of Done — for an approved feature or fix
+
+Use this at **feature acceptance**, not as a demand for a complete audit or full verification after every prompt. Mark irrelevant items Not applicable and never tick a box based on assumption alone.
+
+- [ ] The owner-approved behavior works in the actual target environment (or is clearly marked Not tested).
+- [ ] Relevant focused tests ran; for an important bug, a regression check covers its original failure when feasible.
+- [ ] Likely failures and invalid input have sensible outcomes; there are no silent no-op buttons or misleading success messages.
+- [ ] Existing related functionality remains working; affected modules and dependencies were considered.
+- [ ] If the software stores user data, existing records are preserved; read/write failures, access boundaries and recovery are addressed as applicable.
+- [ ] Required device/browser UI checks were observed, or the remaining manual checks are clearly assigned.
+- [ ] Changed files, actual results, untested areas, limitations and any owner-approved deferrals were reported.
+
+A compiled application, a green subset of tests, or an AI completion message **alone** is not a Definition of Done.
+
 ## Outcome and follow-up
 
 - **Coverage:** What was checked and what remains untested? TBD
