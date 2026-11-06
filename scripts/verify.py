@@ -202,7 +202,9 @@ def main(arguments: list[str] | None = None, root: Path = ROOT) -> int:
         print(f"REPORT ERROR: Could not write verification report: {exc}", file=sys.stderr)
         return 3
     print("ALL CONFIGURED CHECKS PASSED" if success else "VERIFICATION FAILED")
-    print(f"Report: {report_path.relative_to(root)}")
+    # Both paths must use their canonical form. On macOS /var may resolve to
+    # /private/var; on Windows the temp root may use an 8.3 short-name alias.
+    print(f"Report: {report_path.relative_to(root.resolve())}")
     return 0 if success else 1
 
 

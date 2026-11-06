@@ -166,6 +166,22 @@ class ExecutionTests(unittest.TestCase):
             self.assertFalse(report["all_passed"])
             self.assertEqual(1, report["failed_steps"])
 
+    def test_report_path_handles_root_symlink_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory)
+            actual = base / "actual-project"
+            actual.mkdir()
+            alias = base / "project-alias"
+            try:
+                alias.symlink_to(actual, target_is_directory=True)
+            except (OSError, NotImplementedError):
+                self.skipTest("Directory symlinks unavailable on this platform")
+            (actual / "verification.json").write_text(
+                json.dumps({"schema_version": 1, "steps": steps()}), encoding="utf-8")
+            with redirect_stdout(StringIO()):
+                self.assertEqual(0, verify.main(["--mode", "quick"], alias))
+            self.assertTrue((actual / "reports/verification-report.json").is_file())
+
     def test_report_cannot_overwrite_project_config(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
